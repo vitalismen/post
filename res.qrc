@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/Klogo.png</file>
+        <file>images/KlogoM.png</file>
+        <file>images/KlogoS.png</file>
+        <file>images/st0.png</file>
+        <file>images/book.png</file>
+        <file>images/folder-add.png</file>
+        <file>images/info-large.png</file>
+        <file>images/tick.png</file>
+        <file>images/zoom.png</file>
+        <file>images/cloud_download.png</file>
+        <file>images/cloud_upload.png</file>
+        <file>images/k.ico</file>
+        <file>images/times.png</file>
+        <file>images/del.png</file>
+        <file>images/next.png</file>
+        <file>images/pls.png</file>
+        <file>images/prev.png</file>
+        <file>images/save.png</file>
+        <file>images/printer.png</file>
+    </qresource>
+</RCC>
