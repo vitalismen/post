@@ -11,6 +11,7 @@
 #include <QSqlRecord>
 #include <QVariant>
 #include <QPainter>
+#include <QDir>
 #include "settings.h"
 #include "declaration.h"
 // Адаптер представляющий картинку документа

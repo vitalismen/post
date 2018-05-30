@@ -1,8 +1,8 @@
 #include "settings.h"
 settings::settings()
 {
-    _images_dir = "docs/";
-    _db_dir = "data/data.db3";
+    _images_dir = QDir::homePath() + "/.post/docs/";
+    _db_dir = QDir::homePath() + "/.post/data/data.db3";
     QFile tester(_db_dir);
     if (!tester.exists()){ create_base();}
     _db = QSqlDatabase::addDatabase("QSQLITE");
@@ -24,10 +24,13 @@ QSqlDatabase& settings::get_db()
 void settings::create_base()
 {
     QDir my_dir;
-    my_dir.mkdir("docs");
-    my_dir.mkdir("data");
+    QString upatch = QDir::homePath();
+    my_dir.mkdir(upatch + "/.post");
+    my_dir.mkdir(upatch + "/.post");
+    my_dir.mkdir(upatch + "/.post/docs");
+    my_dir.mkdir(upatch + "/.post/data");
     QSqlDatabase temp_db = QSqlDatabase::addDatabase("QSQLITE");
-    temp_db.setDatabaseName("data/data.db3");
+    temp_db.setDatabaseName(upatch + "/.post/data/data.db3");
     if(!temp_db.open()){ QMessageBox::information(0, "Внимание", "База данных не открывается data.db3");}
     QSqlQuery query;
     QString prep = "CREATE TABLE out_data (doc_out_number TEXT UNIQUE NOT NULL, send_rec TEXT, content TEXT, worker TEXT, sys_data INTEGER, fix TEXT, blank_number TEXT UNIQUE, notice TEXT, label_uniq TEXT UNIQUE NOT NULL, inq INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL);";
