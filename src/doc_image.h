@@ -8,6 +8,9 @@
 #include <QFile>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlRecord>
+#include <QVariant>
+#include <QPainter>
 #include "settings.h"
 #include "declaration.h"
 // Адаптер представляющий картинку документа
@@ -28,12 +31,12 @@ public:
     void del_image();
 private:
     void set_type(img_status ims);
-    void im_type_set(QImage& arg);
-    void im_hash(QImage& arg);
-    QString _adr_str;
-    QString _uniq_str;
-    QString type;
-    QString number_doc;
+    QString im_hash(const QImage &arg) const;
+    QString _adr_str{""};
+    QString _uniq_str{""};
+    QString type{""};
+    QString number_doc{""};
+    QString hash{""};
 };
 
 #endif // DOC_IMAGE_H
