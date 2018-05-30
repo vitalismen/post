@@ -11,7 +11,7 @@
 #include "images_browser.h"
 #include "letter_in.h"
 #include "declaration.h"
-
+// Класс который выводит в окошке информацию о входящем документе.
 class browser_letter_in : public QDialog
 {
     Q_OBJECT

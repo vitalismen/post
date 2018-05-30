@@ -10,7 +10,7 @@
 #include <QSqlQuery>
 #include "settings.h"
 #include "declaration.h"
-
+// Адаптер представляющий картинку документа
 class doc_image
 {
 public:

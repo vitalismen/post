@@ -14,11 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
     _inmodel = new my_model_in(_prin);
     _outmodel = new my_model_out(_prout);
     _main_area = new QMdiArea(this);
-    QMdiSubWindow* in_sub = new QMdiSubWindow();
-    QMdiSubWindow* out_sub = new QMdiSubWindow();
-    _inview = new my_view(_main_area);
+    QMdiSubWindow* in_sub = new QMdiSubWindow(_main_area);
+    QMdiSubWindow* out_sub = new QMdiSubWindow(_main_area);
+    _inview = new my_view(in_sub);
     _inview->setWindowTitle("Входящие документы");
-    _outview = new my_view(_main_area);
+    _outview = new my_view(out_sub);
     _outview->setWindowTitle("Исходящие документы");
     QSortFilterProxyModel *in_pr_model = new QSortFilterProxyModel();
     QSortFilterProxyModel *out_pr_model = new QSortFilterProxyModel();
@@ -114,7 +114,20 @@ MainWindow::MainWindow(QWidget *parent)
 }
 MainWindow::~MainWindow()
 {
-
+    delete _prin;
+    delete _prout;
+    delete _inmodel;
+    delete _outmodel;
+    delete _inview;
+    delete _outview;
+  //  delete _main_area;
+    delete _act_add;
+    delete _act_filtr;
+    delete _act_close_filtr;
+    delete _act_print;
+    delete _act_about;
+    delete _in_work_panel;
+    delete _out_work_panel;
 }
 void MainWindow::slot_active_window()
 {
@@ -146,7 +159,7 @@ void MainWindow::slot_filtr()
         my_filter->set_def("in");
         }  else if (_type_view == "out"){
                  my_filter->set_def("out");
-    } else {QMessageBox::information(0, "Внимание", "Не получается создать окошко фильтра");}
+    } else {QMessageBox::information(nullptr, "Внимание", "Не получается создать окошко фильтра");}
     if (my_filter->exec() == QDialog::Accepted){
         QRegExp my_reg_string = my_filter->result_obj_reg();
 // Создаём модели посредники для поиска и сортировки
@@ -266,7 +279,7 @@ void MainWindow::slot_print()
 
         QPrinter printer;
 
-        QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+        QPrintDialog *dialog = new QPrintDialog(&printer, nullptr);
         if (dialog->exec() == QDialog::Accepted) {
             document->print(&printer);
         }

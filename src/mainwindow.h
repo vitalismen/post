@@ -21,6 +21,7 @@
 #include <QPrintDialog>
 #include <QTextDocument>
 #include <QTextStream>
+#include <QEvent>
 #include "settings.h"
 #include "items_fabrica.h"
 #include "letter_in.h"
@@ -35,7 +36,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
     void slot_active_window();

@@ -8,9 +8,6 @@ void my_view::mousePressEvent(QMouseEvent *arg)
     if ((arg->buttons() == Qt::RightButton)){
         QMenu *mnu = new QMenu(this);
         mnu->setEnabled(true);
-//        QAction *make_doc = new QAction(trUtf8("Добавить документ"), this);
-//        QObject::connect(make_doc, SIGNAL(triggered()), this, SLOT(slot_add()));
-//        mnu->addAction(make_doc);
         if (this->indexAt(arg->pos()).isValid()) {
             _curs = arg->pos();
             if (model()->headerData(0, Qt::Horizontal, Qt::DisplayRole) == "Входящий номер") {
@@ -51,6 +48,26 @@ void my_view::mousePressEvent(QMouseEvent *arg)
         mnu->show();
     }
     QTableView::mousePressEvent(arg);
+}
+void my_view::mouseDoubleClickEvent(QMouseEvent* arg)
+{
+    _curs = arg->pos();
+    if (this->indexAt(_curs).isValid()){
+        if (model()->headerData(0, Qt::Horizontal, Qt::DisplayRole) == "Входящий номер"){
+            if (this->indexAt(_curs).data(Qt::EditRole).value<letter_in>().is_fix()){
+                this->slot_browser_in();
+            } else {
+                this->slot_edit_in();
+            }
+        } else if (model()->headerData(0, Qt::Horizontal, Qt::DisplayRole) == "№ фирменного бланка"){
+            if (this->indexAt(_curs).data(Qt::EditRole).value<letter_out>().is_fix()){
+                this->slot_browser_out();
+            } else {
+                this->slot_edit_out();
+            }
+        }
+    }
+    QTableView::mouseDoubleClickEvent(arg);
 }
 void my_view::slot_add()
 {
