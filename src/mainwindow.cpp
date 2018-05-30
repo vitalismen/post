@@ -213,7 +213,7 @@ void MainWindow::slot_filtr()
 void MainWindow::slot_about()
 {
     QMessageBox about;
-    about.setText("Регистрация документов 0.9.7 <br> Программу разработал Евгений Королёв <br> Cайт: http://kyrych.ru/44-dev/app/158-post <br> E-mail: root@kyrych.ru <br> XMPP: kyrych@xmpp.ru");
+    about.setText("Регистрация документов 0.9.9 <br> Программу разработал Евгений Королёв <br> Cайт: http://kyrych.ru/44-dev/app/158-post <br> E-mail: root@kyrych.ru <br> XMPP: kyrych@xmpp.ru");
     about.setWindowIcon(QIcon(":/images/KlogoS.png"));
     about.setWindowTitle("О программе:");
     about.exec();

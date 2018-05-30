@@ -19,5 +19,6 @@
         <file>images/prev.png</file>
         <file>images/save.png</file>
         <file>images/printer.png</file>
+        <file>images/warning.png</file>
     </qresource>
 </RCC>

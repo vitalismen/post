@@ -63,7 +63,7 @@ RESOURCES += \
 
 win32:{
     RC_ICONS = $$PWD/images/k.ico
-    VERSION = 0.9.7
+    VERSION = 0.9.9
     QMAKE_TARGET_PRODUCT = document registration
     QMAKE_TARGET_DESCRIPTION = The program is designed to register incoming and outgoing documents in the workplace Secretary of a small company
     QMAKE_TARGET_COPYRIGHT = Evgeny Korolev E-mail: root@kyrych.ru

@@ -97,12 +97,10 @@ QImage doc_image::get_image() const
     QString refer = query.value(rec.indexOf("im_hash")).toString();
     QString refer2 = im_hash(ret);
     if (refer != refer2){
-            QColor TrasparentColor(255,0,0);
-            ret.setAlphaChannel(ret.createMaskFromColor(TrasparentColor.rgb(),Qt::MaskMode::MaskOutColor));
-            QPainter p1;
-            p1.begin(&img1);
-            p1.drawImage(50,50,ret);
-            p1.end();
+        QImage img = QImage(":/images/warning.png", "png");
+        QPainter p1(&ret);
+        p1.drawImage(10,10,img);
+        p1.end();
     }
     return ret;
 }
