@@ -29,7 +29,7 @@ doc_image::doc_image(const QImage &arg, const QString& adr, const QString& arg_n
     QString tmp_query;
         _uniq_str = "file";
         hash = im_hash(arg);
-        arg.save(QDir::homePath() + "/.post/docs/" + _adr_str + ".png", "png");
+        arg.save("docs/" + _adr_str + ".png", "png");
         if (type == "out"){
             tmp_query = "INSERT INTO out_foto(label_uniq, adr_str, uniq_str, im_hash) VALUES('" + number_doc + "', '" + _adr_str + "', '" + _uniq_str + "', '" + hash + "');";
         } else if (type == "in"){
@@ -60,7 +60,7 @@ bool doc_image::set_image(const QImage& arg, const QString& adr, const QString& 
     _uniq_str = "file";
     hash = im_hash(arg);
     QString tmp_query;
-    arg.save(QDir::homePath() + "/.post/docs/" + _adr_str + ".png", "png");
+    arg.save("docs/" + _adr_str + ".png", "png");
     if (type == "out"){
         tmp_query = "INSERT INTO out_foto(label_uniq TEXT, adr_str TEXT, uniq_str TEXT, im_hash TEXT) VALUES ('" + number_doc + "', '" +
                 _adr_str + "', '" + _uniq_str + "', '" + hash + "');";
@@ -76,7 +76,7 @@ bool doc_image::set_image(const QImage& arg, const QString& adr, const QString& 
 }
 QImage doc_image::get_image() const
 {
-    QImage ret = QImage(QDir::homePath() + "/.post/docs/" + _adr_str + ".png", "png");
+    QImage ret = QImage("docs/" + _adr_str + ".png", "png");
     settings& setd = settings::getInatance();
     QSqlDatabase& my_db = setd.get_db();
     QSqlQuery query(my_db);
@@ -109,7 +109,7 @@ void doc_image::del_image()
     if (_uniq_str == ""){
         throw "I don't know what type";
     } else if (_uniq_str == "file"){
-        QFile del_fail(QDir::homePath() + "/.post/docs/" + _adr_str + ".png");
+        QFile del_fail("docs/" + _adr_str + ".png");
         del_fail.remove();
         del_fail.close();
         settings& setd = settings::getInatance();
