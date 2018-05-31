@@ -1,8 +1,22 @@
 #include "settings.h"
 settings::settings()
 {
-    _images_dir = "docs/";
-    _db_dir = "data/data.db3";
+    QDir us_dir;
+    us_dir.mkdir(QDir::homePath() + "/.post");
+    set_path = QDir::homePath() + "/.post/db.set";
+    QFile tester_ini(set_path);
+    db_path = "";
+    if (!tester_ini.open(QIODevice::ReadWrite | QIODevice::Text)){
+        QMessageBox::information(nullptr, "Внимание", "Невозможно найти или сохранить путь к базе даных");
+    }
+    QTextStream in_out(&tester_ini);
+    db_path.append(tester_ini.readAll());
+    if (db_path == ""){
+        db_path = choise_set_path() + "/post";
+        in_out << db_path;
+    }
+    _images_dir = db_path + "/docs/";
+    _db_dir = db_path + "/data/data.db3";
     QFile tester(_db_dir);
     if (!tester.exists()){ create_base();}
     _db = QSqlDatabase::addDatabase("QSQLITE");
@@ -23,12 +37,12 @@ QSqlDatabase& settings::get_db()
 }
 void settings::create_base()
 {
-    QDir my_dir;
-    QString upatch = QDir::homePath();
+    QDir my_dir(db_path);
+    my_dir.mkpath(db_path);
     my_dir.mkdir("docs");
     my_dir.mkdir("data");
     QSqlDatabase temp_db = QSqlDatabase::addDatabase("QSQLITE");
-    temp_db.setDatabaseName("data/data.db3");
+    temp_db.setDatabaseName(_db_dir);
     if(!temp_db.open()){ QMessageBox::information(nullptr, "Внимание", "База данных не открывается data.db3");}
     QSqlQuery query;
     QString prep = "CREATE TABLE out_data (doc_out_number TEXT UNIQUE NOT NULL, send_rec TEXT, content TEXT, worker TEXT, sys_data INTEGER, fix TEXT, blank_number TEXT UNIQUE, notice TEXT, label_uniq TEXT UNIQUE NOT NULL, inq INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL);";
@@ -49,4 +63,12 @@ void settings::create_base()
                 QMessageBox::information(nullptr, "Внимание", "База данных пуста и не удается создать таблицу in_foto");
             }
     temp_db.close();
+}
+QString settings::choise_set_path()
+{
+    QString str{""};
+    while(str == "") {
+    str = QFileDialog::getExistingDirectory(nullptr, "Выберите папку с данными программы", QDir::homePath(), QFileDialog::ShowDirsOnly);
+    }
+    return str;
 }

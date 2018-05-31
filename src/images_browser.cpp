@@ -83,7 +83,7 @@ void images_browser::slot_save()
 }
 void images_browser::slot_add()
 {
-    QString str = QFileDialog::getOpenFileName(0, "Open Dialog", "", "*.jpg");
+    QString str = QFileDialog::getOpenFileName(nullptr, "Выберите изображение", "", "*.jpg");
     if (str == "") return;
     QImage add_img = QImage(str, "jpg");
     doc_image* tmp = new doc_image(add_img, number + QString::number(_data_str.count()), number, img_st);
@@ -129,7 +129,7 @@ void images_browser::slot_print()
 }
 void images_browser::slot_save_as()
 {
-    QString str = QFileDialog::getSaveFileName(0, "Open Dialog", "", "*.png");
+    QString str = QFileDialog::getSaveFileName(nullptr, "Сохранить документ как...", "", "*.png");
     if (str == "") return;
     QImage tmp = _data_str.at(_focus)->get_image();
     tmp.save(str, "png");

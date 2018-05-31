@@ -100,7 +100,7 @@ void images_editors::slot_save()
 }
 void images_editors::slot_add()
 {
-    QString str = QFileDialog::getOpenFileName(nullptr, "Open Dialog", "", "*.jpg");
+    QString str = QFileDialog::getOpenFileName(nullptr, "Выберите изображение", "", "*.jpg");
     if (str == "") return;
     QImage add_img = QImage(str, "jpg");
     doc_image* tmp = new doc_image(add_img, number + QString::number(_data_str.count()), number, img_st);

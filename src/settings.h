@@ -7,6 +7,8 @@
 #include <QFile>
 #include <QDir>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QTextStream>
 
 class settings
 {
@@ -23,9 +25,12 @@ private:
     settings(const settings&);
     settings& operator=(settings&);
     void create_base();
+    QString choise_set_path();
     // Переменные для хранения разных настроек
     QString _images_dir;
     QString _db_dir;
+    QString set_path;
+    QString db_path;
     QSqlDatabase _db;
 };
 
