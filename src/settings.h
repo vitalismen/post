@@ -20,6 +20,7 @@ public:
     QString get_img_dir() const;
     QString get_db_dir() const;
     QSqlDatabase& get_db();
+    bool choise_patch();
 private:
     settings();
     settings(const settings&);

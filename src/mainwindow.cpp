@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     _act_about = new QAction(nullptr);
     _act_print = new QAction(nullptr);
     _act_close_filtr = new QAction(nullptr);
+    _act_set = new QAction(nullptr);
     _act_add->setIcon(QIcon(":/images/folder-add.png"));
     _act_add->setToolTip("Добавить документ");
     _act_filtr->setIcon(QIcon(":/images/zoom.png"));
@@ -73,12 +74,15 @@ MainWindow::MainWindow(QWidget *parent)
     _act_about->setToolTip("О программе");
     _act_print->setIcon(QIcon(":/images/printer.png"));
     _act_print->setToolTip("Печать");
+    _act_set->setIcon(QIcon(":/images/cog-outline.png"));
+    _act_set->setToolTip("Настройка");
 
     QObject::connect(_act_about, SIGNAL(triggered(bool)), this, SLOT(slot_about()));
     QObject::connect(_act_add, SIGNAL(triggered(bool)), this, SLOT(slot_add()));
     QObject::connect(_act_filtr, SIGNAL(triggered(bool)), this, SLOT(slot_filtr()));
     QObject::connect(_act_print, SIGNAL(triggered(bool)), this, SLOT(slot_print()));
     QObject::connect(_act_close_filtr, SIGNAL(triggered(bool)), this, SLOT(slot_close_filtr()));
+    QObject::connect(_act_set, SIGNAL(triggered(bool)), this, SLOT(slot_set()));
 
     _in_work_panel = new QToolBar();
     _out_work_panel = new QToolBar();
@@ -97,6 +101,8 @@ MainWindow::MainWindow(QWidget *parent)
     _in_work_panel->addSeparator();
     _in_work_panel->addAction(_act_about);
     _in_work_panel->addSeparator();
+    _in_work_panel->addAction(_act_set);
+    _in_work_panel->addSeparator();
     _out_work_panel->addSeparator();
     _out_work_panel->addAction(_act_add);
     _out_work_panel->addSeparator();
@@ -107,6 +113,8 @@ MainWindow::MainWindow(QWidget *parent)
     _out_work_panel->addAction(_act_print);
     _out_work_panel->addSeparator();
     _out_work_panel->addAction(_act_about);
+    _out_work_panel->addSeparator();
+    _out_work_panel->addAction(_act_set);
     _out_work_panel->addSeparator();
 
   _inview->scrollToBottom();
@@ -120,12 +128,12 @@ MainWindow::~MainWindow()
     delete _outmodel;
     delete _inview;
     delete _outview;
-  //  delete _main_area;
     delete _act_add;
     delete _act_filtr;
     delete _act_close_filtr;
     delete _act_print;
     delete _act_about;
+    delete _act_set;
     delete _in_work_panel;
     delete _out_work_panel;
 }
@@ -284,4 +292,10 @@ void MainWindow::slot_print()
             document->print(&printer);
         }
         delete document;
+}
+void MainWindow::slot_set()
+{
+    settings& set = settings::getInatance();
+    set.choise_patch();
+    slot_close_filtr();
 }

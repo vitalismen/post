@@ -45,6 +45,7 @@ public slots:
     void slot_filtr();
     void slot_close_filtr();
     void slot_print();
+    void slot_set();
 private:
     QString _type_view;
     proxy_in* _prin;
@@ -59,6 +60,7 @@ private:
     QAction* _act_close_filtr;
     QAction* _act_print;
     QAction* _act_about;
+    QAction* _act_set;
     QToolBar* _in_work_panel;
     QToolBar* _out_work_panel;
 };

@@ -16,6 +16,10 @@ settings::settings()
     if (db_path == ""){
         db_path = choise_set_path();
         in_out << db_path;
+        retar2.append(db_path);
+        retar= QByteArray::fromBase64(retar2);
+        db_path.clear();
+        db_path.append(retar);
     }
      db_path += "/post";
     _images_dir = db_path + "/docs/";
@@ -78,4 +82,30 @@ QString settings::choise_set_path()
     retar = retar.toBase64();
     str = retar;
     return str;
+}
+bool settings::choise_patch()
+{
+    QFile tester_ini(set_path);
+    if (!tester_ini.open(QIODevice::WriteOnly | QIODevice::Text)){
+        QMessageBox::information(nullptr, "Внимание", "Невозможно найти или сохранить путь к базе даных");
+    }
+    QTextStream in_out(&tester_ini);
+    QByteArray retar2;
+    QByteArray retar;
+
+    db_path = choise_set_path();
+    in_out << db_path;
+    retar2.append(db_path);
+    retar= QByteArray::fromBase64(retar2);
+    db_path.clear();
+    db_path.append(retar);
+
+    db_path += "/post";
+    _images_dir = db_path + "/docs/";
+    _db_dir = db_path + "/data/data.db3";
+    QFile tester(_db_dir);
+    if (!tester.exists()){ create_base();}
+    _db.close();
+    _db.setDatabaseName(_db_dir);
+    if(!_db.open()){ QMessageBox::information(nullptr, "Внимание", "База данных не открывается data.db3");}
 }

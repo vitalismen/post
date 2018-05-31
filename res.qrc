@@ -20,5 +20,6 @@
         <file>images/save.png</file>
         <file>images/printer.png</file>
         <file>images/warning.png</file>
+        <file>images/cog-outline.png</file>
     </qresource>
 </RCC>
