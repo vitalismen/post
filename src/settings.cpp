@@ -10,11 +10,14 @@ settings::settings()
         QMessageBox::information(nullptr, "Внимание", "Невозможно найти или сохранить путь к базе даных");
     }
     QTextStream in_out(&tester_ini);
-    db_path.append(tester_ini.readAll());
+    QByteArray retar2 = tester_ini.readAll();
+    QByteArray retar= QByteArray::fromBase64(retar2);
+    db_path.append(retar);
     if (db_path == ""){
-        db_path = choise_set_path() + "/post";
+        db_path = choise_set_path();
         in_out << db_path;
     }
+     db_path += "/post";
     _images_dir = db_path + "/docs/";
     _db_dir = db_path + "/data/data.db3";
     QFile tester(_db_dir);
@@ -70,5 +73,9 @@ QString settings::choise_set_path()
     while(str == "") {
     str = QFileDialog::getExistingDirectory(nullptr, "Выберите папку с данными программы", QDir::homePath(), QFileDialog::ShowDirsOnly);
     }
+    QByteArray retar;
+    retar.append(str);
+    retar = retar.toBase64();
+    str = retar;
     return str;
 }
