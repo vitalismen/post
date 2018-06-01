@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     _act_print = new QAction(nullptr);
     _act_close_filtr = new QAction(nullptr);
     _act_set = new QAction(nullptr);
+    _act_help = new QAction(nullptr);
     _act_add->setIcon(QIcon(":/images/folder-add.png"));
     _act_add->setToolTip("Добавить документ");
     _act_filtr->setIcon(QIcon(":/images/zoom.png"));
@@ -76,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     _act_print->setToolTip("Печать");
     _act_set->setIcon(QIcon(":/images/cog-outline.png"));
     _act_set->setToolTip("Настройка");
+    _act_help->setIcon(QIcon(":/images/help.png"));
+    _act_help->setToolTip("Справка");
 
     QObject::connect(_act_about, SIGNAL(triggered(bool)), this, SLOT(slot_about()));
     QObject::connect(_act_add, SIGNAL(triggered(bool)), this, SLOT(slot_add()));
@@ -83,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(_act_print, SIGNAL(triggered(bool)), this, SLOT(slot_print()));
     QObject::connect(_act_close_filtr, SIGNAL(triggered(bool)), this, SLOT(slot_close_filtr()));
     QObject::connect(_act_set, SIGNAL(triggered(bool)), this, SLOT(slot_set()));
+    QObject::connect(_act_help, SIGNAL(triggered(bool)), this, SLOT(slot_help()));
 
     _in_work_panel = new QToolBar();
     _out_work_panel = new QToolBar();
@@ -103,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
     _in_work_panel->addSeparator();
     _in_work_panel->addAction(_act_set);
     _in_work_panel->addSeparator();
+    _in_work_panel->addAction(_act_help);
+    _in_work_panel->addSeparator();
     _out_work_panel->addSeparator();
     _out_work_panel->addAction(_act_add);
     _out_work_panel->addSeparator();
@@ -116,9 +122,11 @@ MainWindow::MainWindow(QWidget *parent)
     _out_work_panel->addSeparator();
     _out_work_panel->addAction(_act_set);
     _out_work_panel->addSeparator();
+    _out_work_panel->addAction(_act_help);
+    _out_work_panel->addSeparator();
 
-  _inview->scrollToBottom();
-  _outview->scrollToBottom();
+    _inview->scrollToBottom();
+    _outview->scrollToBottom();
 }
 MainWindow::~MainWindow()
 {
@@ -134,12 +142,13 @@ MainWindow::~MainWindow()
     delete _act_print;
     delete _act_about;
     delete _act_set;
+    delete _act_help;
     delete _in_work_panel;
     delete _out_work_panel;
 }
 void MainWindow::slot_active_window()
 {
-    if (_main_area->activeSubWindow() == nullptr || _main_area->activeSubWindow() == 0) return;
+    if (_main_area->activeSubWindow() == nullptr || _main_area->activeSubWindow() == nullptr) return;
     if (_main_area->activeSubWindow()->windowTitle() == "Входящие документы") {
         _out_work_panel->hide();
         _in_work_panel->show();
@@ -221,7 +230,13 @@ void MainWindow::slot_filtr()
 void MainWindow::slot_about()
 {
     QMessageBox about;
-    about.setText("Регистрация документов 0.9.9 <br> Программу разработал Евгений Королёв <br> Cайт: http://kyrych.ru/44-dev/app/158-post <br> E-mail: root@kyrych.ru <br> XMPP: kyrych@xmpp.ru");
+    about.setText("<table><tr><th>"
+                  "<img src=\":/images/KlogoS.png\"> </th> <th>Регистрация документов 0.9.9 <br>"
+                  "Программу разработал Евгений Королёв <br> "
+                  "Cайт: <a href = 'http://kyrych.ru/44-dev/app/158-post'>kyrych.ru</a><br> "
+                  "E-mail: <a href = 'mailto:root@kyrych.ru'>root@kyrych.ru</a> <br> "
+                  "XMPP: kyrych@xmpp.ru "
+                  "</th></tr></table>");
     about.setWindowIcon(QIcon(":/images/KlogoS.png"));
     about.setWindowTitle("О программе:");
     about.exec();
@@ -295,7 +310,72 @@ void MainWindow::slot_print()
 }
 void MainWindow::slot_set()
 {
-    settings& set = settings::getInatance();
-    set.choise_patch();
-    slot_close_filtr();
+    yes_no* pmbx = new yes_no("Настройка",
+                        "<HTML><HEAD><BODY><p align='center'><b>Внимание!</b></p><br>"
+                        "Данная функция предназначена для указания пути к каталогу post с базой <br>"
+                        "данных приложения (каталоги docs и data) в случае если он был перемещён.<br> "
+                        "Если вы укажите пустой каталог, то будет создана новая база объединение<br>"
+                        "которой с предидущей базой будет невозможно. Можно будет снова выбрать<br>"
+                        "предыдущую базу, но документы внесённую в новую перенесены не будут.<br></BODY></HEAD></HTML>",
+                        this);
+    if (pmbx->exec() == QDialog::Accepted)
+    {
+        settings& set = settings::getInatance();
+        set.choise_patch();
+        slot_close_filtr();
+    }
+    delete pmbx;
+}
+void MainWindow::slot_help()
+{
+    QMessageBox about;
+    about.setText("<p align=\"center\"><b>Назначения кнопок панели управления:<b><br></p>"
+                  "<table style=\"margin-right: auto; margin-left: auto; height: 286px; width: 800px;\" border=\"1\">"
+                     "<tbody>"
+                          "<tr>"
+                              "<td><img src=\":/images/folder-add.png\" />&nbsp;</td>"
+                              "<td>&nbsp;Добавить документ в текущую вкладку (Входящий или исходящий)</td>"
+                          "</tr>"
+                          "<tr>"
+                              "<td>&nbsp;<img src=\":/images/zoom.png\" />"
+                              "</td>"
+                              "<td>"
+                                  "<p>&nbsp;Найти документы (фильтр). Позволяет искать документ или группу документов по различным полям, как то номер, адресат и т.д."
+                                  "Результат для входящих и исходящих писем выводится в соотвествующей вкладке. Регистр не различается</p>"
+                              "</td>"
+                          "</tr>"
+                          "<tr>"
+                              "<td>&nbsp;<img src=\":/images/times.png\" />"
+                              "</td>"
+                              "<td>"
+                                  "<p>&nbsp;Сбросить фильтр. Выводит во всех вкладках полный список документов. Это действие имеет смысл только когда хотя бы в одной из вкладок отображены результаты поиска.</p>"
+                              "</td>"
+                          "</tr>"
+                          "<tr>"
+                              "<td>&nbsp;<img src=\":/images/printer.png\" />"
+                              "</td>"
+                              "<td>&nbsp;Распечатать список документов текущей вкладки.</td>"
+                          "</tr>"
+
+                  "<tr>"
+                      "<td>&nbsp;<img src=\":/images/cog-outline.png\" />"
+                      "</td>"
+                      "<td>&nbsp;Выбрать расположение каталога с данными приложения.(Его стоит изменять только если вы понимаете что делаете.)</td>"
+                  "</tr>"
+                  "<tr>"
+                      "<td>&nbsp;<img src=\":/images/help.png\" />"
+                      "</td>"
+                      "<td>&nbsp;Показать эту справку.</td>"
+                  "</tr>"
+                          "<tr>"
+                              "<td><img src=\":/images/info-large.png\" />"
+                              "</td>"
+                              "<td>Тут можно узнать моё имя и email и jabber</td>"
+                          "</tr>"
+                      "</tbody>"
+                  "</table><br>"
+                  "<p align=\"center\">Более подробную справку можно найти на <a href=\"http://kyrych.ru/44-dev/app/158-post\">kyrych.ru</a></p><br>");
+    about.setWindowIcon(QIcon(":/images/KlogoS.png"));
+    about.setWindowTitle("Справка:");
+    about.exec();
 }

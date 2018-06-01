@@ -139,11 +139,11 @@ editor_letter_out::~editor_letter_out()
 void editor_letter_out::slot_save()
 {
     if (_d_o_number->text() == ""){
-        QMessageBox::information(0, "Внимание", "Необходим исходящий номер документа");
+        QMessageBox::information(nullptr, "Внимание", "Необходим исходящий номер документа");
         return;
     }
     if (_send_rec->text() == ""){
-        QMessageBox::information(0, "Внимание", "Необходимо указать получателя");
+        QMessageBox::information(nullptr, "Внимание", "Необходимо указать получателя");
         return;
     }
     _data->set_doc_out_number(_d_o_number->text());   // Исходящий  № док-та

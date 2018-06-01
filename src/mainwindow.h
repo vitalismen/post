@@ -31,6 +31,7 @@
 #include "my_view.h"
 #include "proxy_in.h"
 #include "filtr.h"
+#include "yes_no.h"
 
 class MainWindow : public QMainWindow
 {
@@ -46,6 +47,7 @@ public slots:
     void slot_close_filtr();
     void slot_print();
     void slot_set();
+    void slot_help();
 private:
     QString _type_view;
     proxy_in* _prin;
@@ -61,6 +63,7 @@ private:
     QAction* _act_print;
     QAction* _act_about;
     QAction* _act_set;
+    QAction* _act_help;
     QToolBar* _in_work_panel;
     QToolBar* _out_work_panel;
 };

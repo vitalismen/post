@@ -33,7 +33,8 @@ SOURCES += \
     src/proxy_in.cpp \
     src/proxy_out.cpp \
     src/settings.cpp \
-    src/functions.cpp
+    src/functions.cpp \
+    src/yes_no.cpp
 
 HEADERS  += \
     src/browser_letter_in.h \
@@ -56,7 +57,8 @@ HEADERS  += \
     src/proxy_out.h \
     src/settings.h \
     src/declaration.h \
-    src/functions.h
+    src/functions.h \
+    src/yes_no.h
 
 RESOURCES += \
     res.qrc
