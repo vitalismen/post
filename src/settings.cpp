@@ -88,24 +88,29 @@ bool settings::choise_patch()
     QFile tester_ini(set_path);
     if (!tester_ini.open(QIODevice::WriteOnly | QIODevice::Text)){
         QMessageBox::information(nullptr, "Внимание", "Невозможно найти или сохранить путь к базе даных");
+        return false;
     }
     QTextStream in_out(&tester_ini);
     QByteArray retar2;
     QByteArray retar;
-
     db_path = choise_set_path();
     in_out << db_path;
     retar2.append(db_path);
     retar= QByteArray::fromBase64(retar2);
     db_path.clear();
     db_path.append(retar);
-
     db_path += "/post";
     _images_dir = db_path + "/docs/";
     _db_dir = db_path + "/data/data.db3";
     QFile tester(_db_dir);
     if (!tester.exists()){ create_base();}
-    _db.close();
-    _db.setDatabaseName(_db_dir);
-    if(!_db.open()){ QMessageBox::information(nullptr, "Внимание", "База данных не открывается data.db3");}
+    QSqlDatabase tmp_db = QSqlDatabase::addDatabase("QSQLITE");
+    tmp_db.setDatabaseName(_db_dir);
+    tmp_db.setDatabaseName(_db_dir);
+    if(!tmp_db.open()){
+        QMessageBox::information(nullptr, "Внимание", "База данных не открывается data.db3");
+        return false;
+    }
+    _db = tmp_db;
+    return true;
 }
