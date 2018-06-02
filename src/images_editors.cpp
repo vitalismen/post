@@ -55,6 +55,10 @@ images_editors::images_editors(const QList<doc_image*> &arg, const QString &arg_
     my_toolbar->setMovable(false);
     _main_scene = new QGraphicsScene();
     _main_view = new QGraphicsView();
+    _main_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    _main_view->setRenderHint(QPainter::Antialiasing);
+    _main_view->setCacheMode(QGraphicsView::CacheBackground);
+    _main_view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     _main_view->setScene(_main_scene);
     QBoxLayout* main_lay = new QBoxLayout(QBoxLayout::TopToBottom);
     main_lay->addWidget(_main_view);
