@@ -24,7 +24,7 @@ public:
 private:
     settings();
     settings(const settings&);
-    settings& operator=(settings&);
+    settings& operator=(const settings&);
     void create_base();
     QString choise_set_path();
     // Переменные для хранения разных настроек
