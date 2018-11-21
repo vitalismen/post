@@ -19,8 +19,8 @@ public:
     letter();
     letter(const letter& arg);
     letter(const letter&& arg);
-    letter& operator=(const letter& arg);
-    letter&& operator=(letter&& arg);
+    letter& operator=(const letter&);
+    letter& operator=(letter&&);
     QString get_doc_out_number() const;
     void set_doc_out_number(const QString& arg);
     QString get_send_rec() const;
