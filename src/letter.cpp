@@ -53,7 +53,7 @@ letter& letter::operator=(const letter& arg)
     _hash_label = arg.get_inv();
     return *this;
 }
-letter&& letter::operator=(letter&& arg)
+letter& letter::operator=(letter&& arg)
 {
     _doc_out_number = std::move(arg._doc_out_number);
     _send_rec = std::move(arg._send_rec);
@@ -64,7 +64,7 @@ letter&& letter::operator=(letter&& arg)
     _col = std::move(arg._col);
     _image_list = std::move(arg._image_list);
     _hash_label = std::move(arg._hash_label);
-    return std::move(*this);
+    return *this;
 }
 QString letter::get_doc_out_number() const
 {
