@@ -53,7 +53,7 @@ letter& letter::operator=(const letter& arg)
     _hash_label = arg.get_inv();
     return *this;
 }
-letter&& letter::operator=(const letter&& arg)
+letter&& letter::operator=(letter&& arg)
 {
     _doc_out_number = std::move(arg._doc_out_number);
     _send_rec = std::move(arg._send_rec);

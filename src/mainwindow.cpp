@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QHeaderView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
