@@ -87,7 +87,7 @@ void images_browser::slot_save()
 }
 void images_browser::slot_add()
 {
-    QString str = QFileDialog::getOpenFileName(nullptr, "Выберите изображение", "", "*.jpg");
+    QString str = QFileDialog::getOpenFileName(nullptr, "Выберите изображение", "", "*.jpg","*.pdf");
     if (str == "") return;
     QImage add_img = QImage(str, "jpg");
     doc_image* tmp = new doc_image(add_img, number + QString::number(_data_str.count()), number, img_st);
